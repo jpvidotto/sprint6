@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 df = pd.read_csv('dataframe/games.csv')
 
-# Tratamento inicial dos dados
+# Tratamento inicial dos dados  
 df.columns = df.columns.str.lower() # Colunas em letras minúsculas
 
 df['year_of_release'] = df['year_of_release'].astype('Int64')
@@ -37,15 +38,21 @@ df_gb_totalsales_platform = df.groupby(['platform', 'year_of_release' ])['total_
 
 #print(df_gb_totalsales_platform)
 
-df_top10_platforms = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
-#print(df_top10_platforms.head(10))
+df_top3_platforms = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
+#print(df_top3_platforms.head(3))
 
-top_platforms = df_top10_platforms.head(10).index.tolist()
-print("Top 10 plataformas:", top_platforms)
+top_platforms = df_top3_platforms.head(3).index.tolist()
+#print("Top 3 plataformas:", top_platforms)
 
 # Filtrar dados apenas para essas plataformas
 df_top = df[df['platform'].isin(top_platforms)]
 
 # Criar tabela de vendas por ano e plataforma
-vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values())
-print(vendas_ano_plataforma)
+vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values(by='year_of_release')
+#print(vendas_ano_plataforma)
+
+#plt.figure(figsize=(12, 6))
+#plt.title('Vendas Totais por Ano para as 3 Principais Plataformas')
+#sns.scatterplot(data=vendas_ano_plataforma, x='year_of_release', y='total_sales', hue='platform')
+#plt.xlabel('Ano de Lançamento')
+#plt.savefig('vendas_totais_ano.png')
