@@ -34,18 +34,20 @@ df_unique_gb = df_unique.groupby('year_of_release')['name'].count()
 
 #print(df_unique_gb)
 
-df_gb_totalsales_platform = df.groupby(['platform', 'year_of_release' ])['total_sales'].sum()
+df_gb_totalsales_platform = df.groupby(['platform', 'year_of_release' ])['total_sales'].sum().reset_index()
 
 #print(df_gb_totalsales_platform)
 
-df_top3_platforms = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
-#print(df_top3_platforms.head(3))
+df_top_platforms_list = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
 
-top_platforms = df_top3_platforms.head(3).index.tolist()
+top3_platforms = df_top_platforms_list.head(3).index.tolist()
 #print("Top 3 plataformas:", top_platforms)
 
+top10_platforms = df_top_platforms_list.head(10).index.tolist()
+#print("Top 10 plataformas:", top_platforms)
+
 # Filtrar dados apenas para essas plataformas
-df_top = df[df['platform'].isin(top_platforms)]
+df_top = df[df['platform'].isin(top3_platforms)]
 
 # Criar tabela de vendas por ano e plataforma
 vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values(by='year_of_release')
@@ -56,3 +58,16 @@ vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_s
 #sns.scatterplot(data=vendas_ano_plataforma, x='year_of_release', y='total_sales', hue='platform')
 #plt.xlabel('Ano de Lançamento')
 #plt.savefig('vendas_totais_ano.png')
+
+#Análise de quantidade de vendas por plataforma ao longo dos anos:
+
+top_platforms_90s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 1990) & (df_gb_totalsales_platform['year_of_release'] < 2000)].sort_values(by='total_sales', ascending=False).head(3)
+
+top_platforms_2000s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 2000) & (df_gb_totalsales_platform['year_of_release'] < 2010)].sort_values(by='total_sales', ascending=False).head(3)
+
+top_platforms_2010s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 2010) & (df_gb_totalsales_platform['year_of_release'] <= 2016)].sort_values(by='total_sales', ascending=False).head(3)
+
+plt.title('Vendas Totais por Ano para todas as Plataformas')
+sns.lineplot(data=['top_platforms_2000s, top_platforms_2010s, top_platforms_90s'], x='year_of_release', y='total_sales', hue='platform')
+plt.xlabel('Ano de Lançamento')
+plt.savefig('vendas_totais_ano_todas_plataformas.png')
