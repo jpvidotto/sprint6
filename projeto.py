@@ -44,14 +44,14 @@ top3_platforms = df_top_platforms_list.head(3).index.tolist()
 #print("Top 3 plataformas:", top_platforms)
 
 top10_platforms = df_top_platforms_list.head(10).index.tolist()
-#print("Top 10 plataformas:", top_platforms)
+#print("Top 10 plataformas:", top10_platforms)
 
 # Filtrar dados apenas para essas plataformas
 df_top = df[df['platform'].isin(top3_platforms)]
 
 # Criar tabela de vendas por ano e plataforma
 vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values(by='year_of_release')
-#print(vendas_ano_plataforma)
+print(vendas_ano_plataforma)
 
 #plt.figure(figsize=(12, 6))
 #plt.title('Vendas Totais por Ano para as 3 Principais Plataformas')
