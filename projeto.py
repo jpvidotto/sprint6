@@ -51,7 +51,7 @@ df_top = df[df['platform'].isin(top3_platforms)]
 
 # Criar tabela de vendas por ano e plataforma
 vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values(by='year_of_release')
-print(vendas_ano_plataforma)
+#print(vendas_ano_plataforma)
 
 #plt.figure(figsize=(12, 6))
 #plt.title('Vendas Totais por Ano para as 3 Principais Plataformas')
@@ -60,14 +60,41 @@ print(vendas_ano_plataforma)
 #plt.savefig('vendas_totais_ano.png')
 
 #Análise de quantidade de vendas por plataforma ao longo dos anos:
+#df.groupby('platform')['total_sales', 'year_of_release'].sum().sort_values(ascending=False)
+df_platforms_1995 = df[df['year_of_release'] > 1995 ].sort_values('year_of_release')
+df_platforms_1995 = df_platforms_1995.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
+df_platforms_1995 = df_platforms_1995[df_platforms_1995['total_sales'] > 20]
 
-top_platforms_90s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 1990) & (df_gb_totalsales_platform['year_of_release'] < 2000)].sort_values(by='total_sales', ascending=False).head(3)
+#plt.title('Vendas Totais por Ano para todas as Plataformas')
+#plt.figure(figsize=(12, 6))
+#sns.lineplot(data=df_platforms_1995, x='year_of_release', y='total_sales', hue='platform')
+#plt.xlabel('Ano de Lançamento')
+#plt.savefig('vendas_totais_ano_todas_plataformas.png')
 
-top_platforms_2000s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 2000) & (df_gb_totalsales_platform['year_of_release'] < 2010)].sort_values(by='total_sales', ascending=False).head(3)
+#Antes de 2010 as plataformas tinham uma vida média de 7 anos, após 2010 essa média caiu para 5 anos. Isso pode ser explicado pelo avanço tecnológico e a rápida evolução do mercado de jogos, onde novas plataformas são lançadas com mais frequência para atender às demandas dos consumidores por melhores gráficos, desempenho e funcionalidades. Além disso, a crescente popularidade dos jogos móveis e serviços de streaming de jogos pode ter contribuído para a redução da vida útil das plataformas tradicionais.
 
-top_platforms_2010s = df_gb_totalsales_platform[(df_gb_totalsales_platform['year_of_release'] >= 2010) & (df_gb_totalsales_platform['year_of_release'] <= 2016)].sort_values(by='total_sales', ascending=False).head(3)
+#Irei pegar dados de 2013 para frente, visto que é um período mais recente e relevante para análise de mercado atual.
+df_recent = df[df['year_of_release'] >= 2013].sort_values('year_of_release')
+df_recent = df_recent.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
 
-plt.title('Vendas Totais por Ano para todas as Plataformas')
-sns.lineplot(data=['top_platforms_2000s, top_platforms_2010s, top_platforms_90s'], x='year_of_release', y='total_sales', hue='platform')
+plt.title('Vendas Totais por Ano para todas as Plataformas (2013-2016)')
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=df_recent, x='year_of_release', y='total_sales', hue='platform')
 plt.xlabel('Ano de Lançamento')
-plt.savefig('vendas_totais_ano_todas_plataformas.png')
+plt.savefig('vendas_totais_ano_todas_plataformas_recente.png')
+
+#O ps3, xbox360 e 3DS começaram liderando em 2013, porém entraram em declinio rápido, sendo substituídos por PS4 e XOne que dominaram o mercado entre 2015 e 2016.
+
+# Análise comparativa entre PS4 e XOne
+
+df_recent_ps4 = df_recent[df_recent['platform'] == 'PS4']
+df_recent_xone = df_recent[df_recent['platform'] == 'XOne'] 
+
+df_recent_ps4_gb = df_recent_ps4.groupby('name')['total_sales'].sum().reset_index()
+df_recent_xone_gb = df_recent_xone.groupby('name')['total_sales'].sum().reset_index()
+
+#plt.figure(figsize=(12, 6))
+#plt.title('Vendas Totais PS4 vs XOne (2013-2020)')
+#plt.boxplot(data=[df_recent_ps4_gb, df_recent_xone_gb], labels=['PS4', 'XOne'])
+#plt.ylabel('Vendas Totais (em milhões)')
+#plt.savefig('vendas_totais_ps4_xone.png')
