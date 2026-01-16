@@ -115,3 +115,5 @@ plt.xlabel('Nota dos Críticos')
 plt.ylabel('Nota dos Usuários')
 plt.savefig('correlacao_notas_vendas_ps4.png')
 
+#Os jogos com maiores nota dos críticos costumam ter maiores numero em vendas.
+
