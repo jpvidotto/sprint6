@@ -53,11 +53,11 @@ df_top = df[df['platform'].isin(top3_platforms)]
 vendas_ano_plataforma = df_top.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index().sort_values(by='year_of_release')
 #print(vendas_ano_plataforma)
 
-#plt.figure(figsize=(12, 6))
-#plt.title('Vendas Totais por Ano para as 3 Principais Plataformas')
-#sns.scatterplot(data=vendas_ano_plataforma, x='year_of_release', y='total_sales', hue='platform')
-#plt.xlabel('Ano de Lançamento')
-#plt.savefig('vendas_totais_ano.png')
+plt.figure(figsize=(12, 6))
+plt.title('Vendas Totais por Ano para as 3 Principais Plataformas')
+sns.scatterplot(data=vendas_ano_plataforma, x='year_of_release', y='total_sales', hue='platform')
+plt.xlabel('Ano de Lançamento')
+plt.savefig('vendas_totais_ano.png')
 
 #Análise de quantidade de vendas por plataforma ao longo dos anos:
 #df.groupby('platform')['total_sales', 'year_of_release'].sum().sort_values(ascending=False)
@@ -65,11 +65,11 @@ df_platforms_1995 = df[df['year_of_release'] > 1995 ].sort_values('year_of_relea
 df_platforms_1995 = df_platforms_1995.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
 df_platforms_1995 = df_platforms_1995[df_platforms_1995['total_sales'] > 20]
 
-#plt.title('Vendas Totais por Ano para todas as Plataformas')
-#plt.figure(figsize=(12, 6))
-#sns.lineplot(data=df_platforms_1995, x='year_of_release', y='total_sales', hue='platform')
-#plt.xlabel('Ano de Lançamento')
-#plt.savefig('vendas_totais_ano_todas_plataformas.png')
+plt.title('Vendas Totais por Ano para todas as Plataformas')
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=df_platforms_1995, x='year_of_release', y='total_sales', hue='platform')
+plt.xlabel('Ano de Lançamento')
+plt.savefig('vendas_totais_ano_todas_plataformas.png')
 
 #Antes de 2010 as plataformas tinham uma vida média de 7 anos, após 2010 essa média caiu para 5 anos. Isso pode ser explicado pelo avanço tecnológico e a rápida evolução do mercado de jogos, onde novas plataformas são lançadas com mais frequência para atender às demandas dos consumidores por melhores gráficos, desempenho e funcionalidades. Além disso, a crescente popularidade dos jogos móveis e serviços de streaming de jogos pode ter contribuído para a redução da vida útil das plataformas tradicionais.
 
@@ -90,11 +90,28 @@ plt.savefig('vendas_totais_ano_todas_plataformas_recente.png')
 df_recent_ps4 = df_recent[df_recent['platform'] == 'PS4']
 df_recent_xone = df_recent[df_recent['platform'] == 'XOne'] 
 
-df_recent_ps4_gb = df_recent_ps4.groupby('name')['total_sales'].sum().reset_index()
-df_recent_xone_gb = df_recent_xone.groupby('name')['total_sales'].sum().reset_index()
+df_recent_ps4_xone = pd.concat([df_recent_ps4, df_recent_xone])
 
-#plt.figure(figsize=(12, 6))
-#plt.title('Vendas Totais PS4 vs XOne (2013-2020)')
-#plt.boxplot(data=[df_recent_ps4_gb, df_recent_xone_gb], labels=['PS4', 'XOne'])
-#plt.ylabel('Vendas Totais (em milhões)')
-#plt.savefig('vendas_totais_ps4_xone.png')
+plt.figure(figsize=(12, 6))
+plt.title('Vendas Totais PS4 vs XOne (2013-2016)')
+sns.boxplot(data = df_recent_ps4_xone, x='platform', y='total_sales')
+plt.ylabel('Vendas Totais (em milhões)')
+plt.savefig('vendas_totais_ps4_xone.png')
+
+#Conclusão: O PS4 teve vendas totais significativamente maiores do que o XOne no período de 2013 a 2016, indicando uma preferência clara dos consumidores pela plataforma da Sony em comparação com a da Microsoft.
+
+df_nan_count = df[df['critic_score'].isna()].isna().sum()
+#Fiz uma contagem para saber se há muitos valores nulos na coluna critic_score e user_score ao mesmo tempo, para assim ver se seria possível fazer uma análise de correlação entre essas duas colunas.
+
+df_wo_nan_ps4 = df.dropna(subset=['critic_score', 'user_score'])
+df_wo_nan_ps4 = df_wo_nan_ps4[df_wo_nan_ps4['platform'] == 'PS4']
+
+#Criei um novo dataframe sem os valores nulos para fazer a análise da correlação de vendas entre as notas dos críticos e dos usuários no PS4.
+
+plt.figure(figsize=(12, 6))
+plt.title('Correlação entre Notas dos Críticos e Usuários vs Vendas Totais no PS4')
+sns.scatterplot(data=df_wo_nan_ps4, x='critic_score', y='user_score', size='total_sales', sizes=(20, 200), alpha=0.6)
+plt.xlabel('Nota dos Críticos')
+plt.ylabel('Nota dos Usuários')
+plt.savefig('correlacao_notas_vendas_ps4.png')
+
