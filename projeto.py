@@ -1,4 +1,3 @@
-from turtle import st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -262,3 +261,5 @@ if p_value_genres < alfa:
 else:
     print("Falhamos em rejeitar a hipótese nula: Não há uma diferença significativa entre as médias das notas dos usuários nos gêneros Action e Sports.")
 
+#Conclusão sobre o projeto geral e possível investimento para o marketing da empresa:
+#Ao longo deste projeto, exploramos diversos aspectos do mercado de jogos, desde o lançamento de jogos ao longo dos anos até a análise de vendas por plataforma, gênero e região. Identificamos tendências importantes, como a preferência por certas plataformas em diferentes regiões e a correlação entre as notas dos críticos e as vendas totais. Além disso, realizamos testes estatísticos para comparar as médias das notas dos usuários em diferentes plataformas e gêneros, fornecendo insights valiosos sobre as preferências dos consumidores. Essas análises podem ajudar na tomada de decisão sobre em qual área o marketing da empresa deve focar para maximizar suas vendas e atender melhor ao público-alvo no ano de 2017. Quando vemos os testes estatísticos, percebemos que não há diferença significativa entre as médias das notas dos usuários no XOne e no PC, sugerindo que ambos os grupos têm opiniões semelhantes sobre os jogos. No entanto, há uma diferença significativa entre as médias das notas dos usuários nos gêneros Action e Sports, indicando que os jogadores avaliam esses gêneros de forma diferente. Esses insights podem ser úteis para direcionar os investimentos do marketing da loja ICE.
