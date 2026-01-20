@@ -141,4 +141,45 @@ df_wo_nan_xone_ps4_concat = pd.concat([df_wo_nan_ps4_compare, df_wo_nan_xone])
 #Dos 10 jogos com maiores notas dos críticos no PS4, apenas 6 foram lançados no XOne. Desses 6 jogos, todos tiveram vendas totais significativamente menores no XOne em comparação com o PS4. Isso reforça a ideia de que o PS4 teve um desempenho de vendas superior ao XOne, mesmo quando analisamos jogos com alta qualidade reconhecida pelos críticos.
 
 df_genre_sales = df.groupby('genre')['total_sales'].sum().reset_index().sort_values(by='total_sales', ascending=False)
-print(df_genre_sales)
+#print(df_genre_sales)
+
+#O gênero Action lidera as vendas totais, seguido por Shooter e Sports. Esses gêneros parecem ser os mais populares entre os consumidores, contribuindo significativamente para as vendas totais de jogos. Por outro lado, gêneros como Strategy e Puzzle apresentam vendas totais mais baixas, indicando uma preferência menor por esses tipos de jogos no mercado. Essa informação pode ser útil para desenvolvedores e publishers ao decidirem quais tipos de jogos investir e desenvolver no futuro. E também mostra uma preferencia por generos onde a jogabilidade é mais dinâmica e envolvente.
+
+df_na_sales = df.groupby('platform')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
+df_eu_sales = df.groupby('platform')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
+df_jp_sales = df.groupby('platform')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
+
+df_top5_na = df_na_sales.head(5)
+df_top5_eu = df_eu_sales.head(5)
+df_top5_jp = df_jp_sales.head(5)
+#print("Top 5 plataformas na América do Norte:\n", df_top5_na)
+#print("Top 5 plataformas na Europa:\n", df_top5_eu)
+#print("Top 5 plataformas no Japão:\n", df_top5_jp)
+
+#Na América do Norte e Europa, as plataformas com maiores vendas são PS4, XOne e PS3, indicando uma preferência por consoles da Sony e Microsoft nessas regiões. No Japão, o cenário é diferente, com o 3DS liderando as vendas, seguido pelo PS4 e PS3. Isso sugere que os consumidores japoneses têm uma preferência maior por consoles portáteis, como o 3DS, em comparação com outras regiões. Essas diferenças regionais nas preferências de plataforma podem ser influenciadas por fatores culturais, econômicos e de mercado específicos de cada região.
+
+df_na_sales_by_genre = df.groupby('genre')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
+df_eu_sales_by_genre = df.groupby('genre')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
+df_jp_sales_by_genre = df.groupby('genre')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
+
+df_top5_na_genre = df_na_sales_by_genre.head(5)
+df_top5_eu_genre = df_eu_sales_by_genre.head(5)
+df_top5_jp_genre = df_jp_sales_by_genre.head(5)
+#print("Top 5 gêneros na América do Norte:\n", df_top5_na_genre)
+#print("Top 5 gêneros na Europa:\n", df_top5_eu_genre)
+#print("Top 5 gêneros no Japão:\n", df_top5_jp_genre)
+
+#Na América do Norte e Europa, os gêneros com maiores vendas são Action, Shooter e Sports, indicando uma preferência por jogos dinâmicos e competitivos nessas regiões. No Japão, os gêneros mais populares são Role-Playing, Action e Fighting, sugerindo uma preferência por jogos com narrativas envolventes e elementos de combate. Essas diferenças regionais nas preferências de gênero podem ser influenciadas por fatores culturais e de mercado específicos de cada região, visto que no Japão há uma tradição maior em jogos de RPG e luta.
+
+df_rating_sales_wo_nan = df[df['rating'] != 'Unknown']
+
+df_rating_nasales = df_rating_sales_wo_nan.groupby('rating')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
+df_rating_eusales = df_rating_sales_wo_nan.groupby('rating')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
+df_rating_jpsales = df_rating_sales_wo_nan.groupby('rating')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
+
+df_top5rating_nasales = df_rating_nasales.head(5)
+df_top5rating_eusales = df_rating_eusales.head(5)
+df_top5rating_jpsales = df_rating_jpsales.head(5)
+print("Top 5 ratings na América do Norte:\n", df_top5rating_nasales)
+print("Top 5 ratings na Europa:\n", df_top5rating_eusales)
+print("Top 5 ratings no Japão:\n", df_top5rating_jpsales)
