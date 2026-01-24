@@ -39,7 +39,6 @@ df_gb_totalsales_platform = df.groupby(['platform', 'year_of_release' ])['total_
 
 #print(df_gb_totalsales_platform)
 
-
 df_top_platforms_list = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
 
 top3_platforms = df_top_platforms_list.head(3).index.tolist()
@@ -66,13 +65,12 @@ plt.xlabel('Ano de Lançamento')
 plt.savefig('vendas_totais_ano.png')
 
 #Análise de quantidade de vendas por plataforma ao longo dos anos:
-#df.groupby('platform')['total_sales', 'year_of_release'].sum().sort_values(ascending=False)
 df_platforms_1995 = df[df['year_of_release'] > 1995 ].sort_values('year_of_release')
 df_platforms_1995 = df_platforms_1995.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
 df_platforms_1995 = df_platforms_1995[df_platforms_1995['total_sales'] > 20]
 
-plt.title('Vendas Totais por Ano para todas as Plataformas')
 plt.figure(figsize=(12, 6))
+plt.title('Vendas Totais por Ano para todas as Plataformas')
 sns.lineplot(data=df_platforms_1995, x='year_of_release', y='total_sales', hue='platform')
 plt.xlabel('Ano de Lançamento')
 plt.savefig('vendas_totais_ano_todas_plataformas.png')
@@ -83,8 +81,8 @@ plt.savefig('vendas_totais_ano_todas_plataformas.png')
 df_recent = df[df['year_of_release'] >= 2013].sort_values('year_of_release')
 df_recent = df_recent.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
 
-plt.title('Vendas Totais por Ano para todas as Plataformas (2013-2016)')
 plt.figure(figsize=(12, 6))
+plt.title('Vendas Totais por Ano para todas as Plataformas (2013-2016)')
 sns.lineplot(data=df_recent, x='year_of_release', y='total_sales', hue='platform')
 plt.xlabel('Ano de Lançamento')
 plt.savefig('vendas_totais_ano_todas_plataformas_recente.png')
