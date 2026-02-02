@@ -153,6 +153,9 @@ print()
 #conclusão sobre as vendas por gênero:
 #O gênero Action lidera as vendas totais, seguido por Shooter e Sports. Esses gêneros parecem ser os mais populares entre os consumidores, contribuindo significativamente para as vendas totais de jogos. Por outro lado, gêneros como Strategy e Puzzle apresentam vendas totais mais baixas, indicando uma preferência menor por esses tipos de jogos no mercado. Essa informação pode ser útil para desenvolvedores e publishers ao decidirem quais tipos de jogos investir e desenvolver no futuro. E também mostra uma preferencia por generos onde a jogabilidade é mais dinâmica e envolvente.
 
+# Análise de vendas por plataforma em diferentes regiões
+
+#Filtragem dos dados por plataforma e soma das vendas em cada região
 df_na_sales = df.groupby('platform')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
 df_eu_sales = df.groupby('platform')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
 df_jp_sales = df.groupby('platform')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
@@ -170,6 +173,9 @@ print()
 #Conclusão sobre as vendas por plataforma regional:
 #Na América do Norte e Europa, as plataformas com maiores vendas são PS4, XOne e PS3, indicando uma preferência por consoles da Sony e Microsoft nessas regiões. No Japão, o cenário é diferente, com o 3DS liderando as vendas, seguido pelo PS4 e PS3. Isso sugere que os consumidores japoneses têm uma preferência maior por consoles portáteis, como o 3DS, em comparação com outras regiões. Essas diferenças regionais nas preferências de plataforma podem ser influenciadas por fatores culturais, econômicos e de mercado específicos de cada região.
 
+# Análise de vendas por gênero em diferentes regiões
+
+#Filtragem dos dados por gênero e soma das vendas em cada região
 df_na_sales_by_genre = df.groupby('genre')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
 df_eu_sales_by_genre = df.groupby('genre')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
 df_jp_sales_by_genre = df.groupby('genre')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
@@ -187,8 +193,11 @@ print()
 #Conclusão sobre as vendas por gênero regional:
 #Na América do Norte e Europa, os gêneros com maiores vendas são Action, Shooter e Sports, indicando uma preferência por jogos dinâmicos e competitivos nessas regiões. No Japão, os gêneros mais populares são Role-Playing, Action e Fighting, sugerindo uma preferência por jogos com narrativas envolventes e elementos de combate. Essas diferenças regionais nas preferências de gênero podem ser influenciadas por fatores culturais e de mercado específicos de cada região, visto que no Japão há uma tradição maior em jogos de RPG e luta.
 
-df_rating_sales_wo_nan = df[df['rating'] != 'Unknown']
+# Análise de vendas por classificação etária em diferentes regiões
 
+
+df_rating_sales_wo_nan = df[df['rating'] != 'Unknown']
+#Filtragem dos dados por classificação etária e soma das vendas em cada região
 df_rating_nasales = df_rating_sales_wo_nan.groupby('rating')['na_sales'].sum().reset_index().sort_values(by='na_sales', ascending=False)
 df_rating_eusales = df_rating_sales_wo_nan.groupby('rating')['eu_sales'].sum().reset_index().sort_values(by='eu_sales', ascending=False)
 df_rating_jpsales = df_rating_sales_wo_nan.groupby('rating')['jp_sales'].sum().reset_index().sort_values(by='jp_sales', ascending=False)
@@ -206,6 +215,8 @@ print()
 #Conclusão sobre as classificações etárias:
 #Nos três mercados analisados, a classificação "M" (Mature) lidera as vendas, indicando uma preferência por jogos destinados a um público mais velho. Em seguida, as classificações "E" (Everyone) e "T" (Teen) também apresentam vendas significativas, sugerindo que jogos adequados para todas as idades e adolescentes também são populares. A classificação "E10+" (Everyone 10 and older) tem vendas menores em comparação com as outras classificações, mas ainda assim é relevante. Essas tendências refletem as preferências dos consumidores em diferentes faixas etárias e podem influenciar as decisões de desenvolvimento e marketing dos jogos.
 
+
+# Análise estatística das notas dos usuários entre plataformas e gêneros
 mean_user_score = df.groupby('platform')['user_score'].mean().reset_index().sort_values(by='user_score', ascending=False)
 
 xbox_mean_user_score = mean_user_score[mean_user_score['platform'] == 'XOne']['user_score'].dropna().values[0]
